@@ -7,9 +7,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
-class OwnerTest {
+class AssigneeTest {
     @Test
-    void owner_nicknameNull_raisesException() {
-        assertThatThrownBy(() -> Owner.builder().build()).isInstanceOf(NullPointerException.class);
+    void assignee_nicknameNull_raisesException() {
+        assertThatThrownBy(() -> Assignee.builder().build()).isInstanceOf(NullPointerException.class);
     }
 }

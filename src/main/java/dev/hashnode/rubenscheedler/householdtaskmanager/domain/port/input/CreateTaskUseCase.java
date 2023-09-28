@@ -1,7 +1,7 @@
 package dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input;
 
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Owner;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.SaveTaskPort;
 import lombok.Builder;
@@ -23,10 +23,10 @@ public class CreateTaskUseCase {
                         .id(taskId)
                         .description(command.description())
                         .completed(command.completed())
-                        .owner(command.owner())
+                        .assignee(command.assignee())
                 .build());
     }
 
     @Builder
-    record Command(@NonNull String description, boolean completed, Owner owner) {}
+    record Command(@NonNull String description, boolean completed, Assignee assignee) {}
 }

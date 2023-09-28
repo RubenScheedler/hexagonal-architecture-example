@@ -1,6 +1,6 @@
 package dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity;
 
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Owner;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class Task {
      */
     boolean completed;
     /**
-     * (Optional) The current owner/person that is working on the task.
+     * (Optional) The current assignee/person that is working on the task.
      */
-    Owner owner;
+    Assignee assignee;
 }

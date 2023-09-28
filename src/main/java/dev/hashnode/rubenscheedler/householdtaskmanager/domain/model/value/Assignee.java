@@ -4,5 +4,5 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record Owner(@NonNull String nickname) {
+public record Assignee(@NonNull String nickname) {
 }

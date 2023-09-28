@@ -33,7 +33,7 @@ class CreateTaskUseCaseTest {
             assertThat(actual.getId()).isNotNull();
             assertThat(actual.getDescription()).isEqualTo(command.description());
             assertThat(actual.isCompleted()).isEqualTo(command.completed());
-            assertThat(actual.getOwner()).isEqualTo(command.owner());
+            assertThat(actual.getAssignee()).isEqualTo(command.assignee());
         }));
     }
 }
