@@ -1,11 +1,12 @@
 package dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output;
 
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
-import lombok.NonNull;
+
+import java.util.List;
 
 /**
- * Saves or creates a task.
+ * Retrieves all tasks from storage.
  */
-public interface SaveTaskPort {
-    void execute(@NonNull Task task);
+public interface GetTasksPort {
+    List<Task> execute();
 }
