@@ -14,7 +14,7 @@ import java.util.UUID;
 public class CreateTaskUseCase {
     private final SaveTaskPort saveTaskPort;
 
-    void execute(Command command) {
+    public void execute(Command command) {
         // Generate a unique id for the new task
         TaskId taskId = new TaskId(UUID.randomUUID());
 

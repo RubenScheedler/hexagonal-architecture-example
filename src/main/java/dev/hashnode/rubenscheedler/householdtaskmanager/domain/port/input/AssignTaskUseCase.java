@@ -13,7 +13,7 @@ public class AssignTaskUseCase {
     private final GetTaskPort getTaskPort;
     private final SaveTaskPort saveTaskPort;
 
-    void execute(Command command) {
+    public void execute(Command command) {
         Task task = getTaskPort.execute(command.taskId());
 
         task.setAssignee(command.assignee());
