@@ -14,7 +14,7 @@ The following usecases should be provided by the system
 - Complete a task
 - Assign a task to yourself
 - Unassign a task
-- Edit a task (adult only)
+- Edit a task's description (adult only)
 - Delete a task (adult only)
 
 ### Technical Requirements
