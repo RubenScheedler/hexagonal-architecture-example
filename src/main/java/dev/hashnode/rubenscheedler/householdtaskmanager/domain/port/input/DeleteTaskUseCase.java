@@ -8,12 +8,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class DeleteTaskUseCase {
-    private final GetTaskPort getTaskPort;
     private final DeleteTaskPort deleteTaskPort;
 
     public void execute(TaskId taskId) {
-        Task task = getTaskPort.getTask(taskId);
-
-        deleteTaskPort.deleteTask(task.getId());
+        deleteTaskPort.deleteTask(taskId);
     }
 }
