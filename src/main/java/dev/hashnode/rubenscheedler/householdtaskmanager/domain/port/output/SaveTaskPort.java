@@ -7,5 +7,5 @@ import lombok.NonNull;
  * Saves or creates a task.
  */
 public interface SaveTaskPort {
-    void execute(@NonNull Task task);
+    void saveTask(@NonNull Task task);
 }

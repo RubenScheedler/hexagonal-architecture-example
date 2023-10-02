@@ -39,25 +39,25 @@ class UnassignTaskUseCaseTest {
     @Test
     void execute_getsTaskByCommandTaskId() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         unassignTaskUseCase.execute(command);
 
         // then
-        verify(getTaskPort).execute(assertArg(actual -> actual.equals(command.taskId())));
+        verify(getTaskPort).getTask(assertArg(actual -> actual.equals(command.taskId())));
     }
 
     @Test
     void execute_emptiesAssigneeOfTask() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         unassignTaskUseCase.execute(command);
 
         // then
-        verify(saveTaskPort).execute(assertArg(actual -> {
+        verify(saveTaskPort).saveTask(assertArg(actual -> {
             assertThat(actual.getId()).isEqualTo(command.taskId());
             assertThat(actual.getAssignee()).isNull();
         }));

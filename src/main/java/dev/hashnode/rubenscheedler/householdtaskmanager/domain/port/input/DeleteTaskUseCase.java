@@ -12,8 +12,8 @@ public class DeleteTaskUseCase {
     private final DeleteTaskPort deleteTaskPort;
 
     public void execute(TaskId taskId) {
-        Task task = getTaskPort.execute(taskId);
+        Task task = getTaskPort.getTask(taskId);
 
-        deleteTaskPort.execute(task.getId());
+        deleteTaskPort.deleteTask(task.getId());
     }
 }

@@ -13,11 +13,11 @@ public class UnassignTaskUseCase {
     private final SaveTaskPort saveTaskPort;
 
     public void execute(Command command) {
-        Task task = getTaskPort.execute(command.taskId());
+        Task task = getTaskPort.getTask(command.taskId());
 
         task.setAssignee(null);
 
-        saveTaskPort.execute(task);
+        saveTaskPort.saveTask(task);
     }
 
     @Builder

@@ -40,26 +40,26 @@ class EditTaskDescriptionUseCaseTest {
     @Test
     void execute_getsTask() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         editTaskDescriptionUseCase.execute(command);
 
         // then
-        verify(getTaskPort).execute(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
+        verify(getTaskPort).getTask(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
     }
 
 
     @Test
     void execute_savesTaskWithNewDescription() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         editTaskDescriptionUseCase.execute(command);
 
         // then
-        verify(saveTaskPort).execute(assertArg(actual -> {
+        verify(saveTaskPort).saveTask(assertArg(actual -> {
             assertThat(actual.getDescription()).isEqualTo(expectedNewDescription);
         }));
     }

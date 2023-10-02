@@ -29,7 +29,7 @@ class CreateTaskUseCaseTest {
         createTaskUseCase.execute(command);
 
         // then
-        verify(saveTaskPort).execute(assertArg(actual -> {
+        verify(saveTaskPort).saveTask(assertArg(actual -> {
             assertThat(actual.getId()).isNotNull();
             assertThat(actual.getDescription()).isEqualTo(command.description());
             assertThat(actual.isCompleted()).isEqualTo(command.completed());

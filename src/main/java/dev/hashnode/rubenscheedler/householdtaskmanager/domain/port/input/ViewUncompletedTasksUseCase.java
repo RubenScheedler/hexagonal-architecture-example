@@ -14,7 +14,7 @@ public class ViewUncompletedTasksUseCase {
     private final GetTasksPort getTasksPort;
 
     public List<Task> execute() {
-        List<Task> allTasks = getTasksPort.execute();
+        List<Task> allTasks = getTasksPort.getTasks();
 
         return allTasks.stream().filter(t -> !t.isCompleted()).toList();
     }

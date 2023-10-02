@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 @ExtendWith(MockitoExtension.class)
 class ViewUncompletedTasksUseCaseTest {
     @Mock
@@ -27,13 +25,13 @@ class ViewUncompletedTasksUseCaseTest {
     void execute_executesGetTasksPort() {
         // given
         List<Task> mockTasks = List.of(mock(Task.class));
-        when(getTasksPort.execute()).thenReturn(mockTasks);
+        when(getTasksPort.getTasks()).thenReturn(mockTasks);
 
         // when
         viewUncompletedTasksUseCase.execute();
 
         // then
-        verify(getTasksPort).execute();
+        verify(getTasksPort).getTasks();
     }
 
     @Test
@@ -46,7 +44,7 @@ class ViewUncompletedTasksUseCaseTest {
 
         List<Task> mockTasks = List.of(expected, notExpected);
 
-        when(getTasksPort.execute()).thenReturn(mockTasks);
+        when(getTasksPort.getTasks()).thenReturn(mockTasks);
 
         // when
         List<Task> actual = viewUncompletedTasksUseCase.execute();

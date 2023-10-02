@@ -8,5 +8,5 @@ import lombok.NonNull;
  * Retrieves a task with a certain id from storage
  */
 public interface GetTaskPort {
-    Task execute(@NonNull TaskId taskId);
+    Task getTask(@NonNull TaskId taskId);
 }

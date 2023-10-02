@@ -8,5 +8,5 @@ import java.util.List;
  * Retrieves all tasks from storage.
  */
 public interface GetTasksPort {
-    List<Task> execute();
+    List<Task> getTasks();
 }

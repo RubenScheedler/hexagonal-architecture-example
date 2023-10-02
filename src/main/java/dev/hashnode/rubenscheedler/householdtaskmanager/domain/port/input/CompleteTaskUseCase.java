@@ -12,10 +12,10 @@ public class CompleteTaskUseCase {
     private final SaveTaskPort saveTaskPort;
 
     public void execute(TaskId taskId) {
-        Task task = getTaskPort.execute(taskId);
+        Task task = getTaskPort.getTask(taskId);
 
         task.setCompleted(true);
 
-        saveTaskPort.execute(task);
+        saveTaskPort.saveTask(task);
     }
 }

@@ -7,5 +7,5 @@ import lombok.NonNull;
  * Deletes a task from storage
  */
 public interface DeleteTaskPort {
-    void execute(@NonNull TaskId taskId);
+    void deleteTask(@NonNull TaskId taskId);
 }

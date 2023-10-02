@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 @ExtendWith(MockitoExtension.class)
 class CompleteTaskUseCaseTest {
     @Mock
@@ -36,25 +34,25 @@ class CompleteTaskUseCaseTest {
     @Test
     void execute_getsTask() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         completeTaskUseCase.execute(task.getId());
 
         // then
-        verify(getTaskPort).execute(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
+        verify(getTaskPort).getTask(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
     }
 
     @Test
     void execute_savesTaskAsCompleted() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         completeTaskUseCase.execute(task.getId());
 
         // then
-        verify(saveTaskPort).execute(assertArg(actual -> {
+        verify(saveTaskPort).saveTask(assertArg(actual -> {
             assertThat(actual.isCompleted()).isTrue();
         }));
     }

@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 @ExtendWith(MockitoExtension.class)
 class DeleteTaskUseCaseTest {
     @Mock
@@ -36,24 +34,24 @@ class DeleteTaskUseCaseTest {
     @Test
     void execute_getsTask() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         deleteTaskUseCase.execute(task.getId());
 
         // then
-        verify(getTaskPort).execute(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
+        verify(getTaskPort).getTask(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
     }
 
     @Test
     void execute_deletesTask() {
         // given
-        when(getTaskPort.execute(any())).thenReturn(task);
+        when(getTaskPort.getTask(any())).thenReturn(task);
 
         // when
         deleteTaskUseCase.execute(task.getId());
 
         // then
-        verify(deleteTaskPort).execute(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
+        verify(deleteTaskPort).deleteTask(assertArg(actual -> assertThat(actual).isEqualTo(task.getId())));
     }
 }

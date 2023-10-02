@@ -19,7 +19,7 @@ public class CreateTaskUseCase {
         TaskId taskId = new TaskId(UUID.randomUUID());
 
         // Save the task in persistent storage
-        saveTaskPort.execute(Task.builder()
+        saveTaskPort.saveTask(Task.builder()
                         .id(taskId)
                         .description(command.description())
                         .completed(command.completed())
