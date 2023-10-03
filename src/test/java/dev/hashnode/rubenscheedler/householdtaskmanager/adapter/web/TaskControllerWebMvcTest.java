@@ -19,9 +19,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +43,8 @@ class TaskControllerWebMvcTest {
     private EditTaskDescriptionUseCase editTaskDescriptionUseCase;
     @MockBean
     private UnassignTaskUseCase unassignTaskUseCase;
+    @MockBean
+    private DeleteTaskUseCase deleteTaskUseCase;
 
     @Test
     void getTasks_withoutAuthentication_gives200() throws Exception {
@@ -122,9 +122,17 @@ class TaskControllerWebMvcTest {
         // when
         UUID taskId = UUID.randomUUID();
         mockMvc.perform(patch("/api/v1/tasks/" + taskId + "/unassign")
-                        .contentType(MediaType.ALL)
                 )
-                // then
+        // then
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteTask_gives200() throws Exception {
+        // when
+        UUID taskId = UUID.randomUUID();
+        mockMvc.perform(delete("/api/v1/tasks/" + taskId))
+        // then
+        .andExpect(status().isOk());
     }
 }

@@ -41,6 +41,8 @@ class TaskControllerTest {
     EditTaskDescriptionUseCase editTaskDescriptionUseCase;
     @Mock
     UnassignTaskUseCase unassignTaskUseCase;
+    @Mock
+    DeleteTaskUseCase deleteTaskUseCase;
 
     @InjectMocks
     TaskController taskController;
@@ -175,6 +177,18 @@ class TaskControllerTest {
         // then
         verify(unassignTaskUseCase).execute(assertArg(actual -> {
             assertThat(actual.taskId()).isEqualTo(new TaskId(taskId));
+        }));
+    }
+
+    @Test
+    void deleteTask_callsDeleteTaskUseCase() {
+        // given
+        UUID taskId = UUID.randomUUID();
+        // when
+        taskController.deleteTask(taskId);
+        // then
+        verify(deleteTaskUseCase).execute(assertArg(actual -> {
+            assertThat(actual).isEqualTo(new TaskId(taskId));
         }));
     }
 

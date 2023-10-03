@@ -26,6 +26,7 @@ public class TaskController {
     private final CompleteTaskUseCase completeTaskUseCase;
     private final EditTaskDescriptionUseCase editTaskDescriptionUseCase;
     private final UnassignTaskUseCase unassignTaskUseCase;
+    private final DeleteTaskUseCase deleteTaskUseCase;
     private final TaskMapper taskMapper;
 
     /**
@@ -101,6 +102,12 @@ public class TaskController {
         unassignTaskUseCase.execute(UnassignTaskUseCase.Command.builder()
                 .taskId(new TaskId(taskId))
                 .build());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{taskId}")
+    ResponseEntity<Void> deleteTask(@PathVariable @NonNull UUID taskId) {
+        deleteTaskUseCase.execute(new TaskId(taskId));
         return ResponseEntity.ok().build();
     }
 }
