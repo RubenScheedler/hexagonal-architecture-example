@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Responsible for conversion between domain models and DTO's
  */
-interface TaskMapper {
+public interface TaskMapper {
     TaskDto toDto(@NonNull Task domainTask);
     Task toDomainObject(@NonNull TaskDto taskDto, boolean completed);
     List<TaskDto> toDtoList(@NonNull List<Task> domainTasks);
