@@ -39,6 +39,8 @@ class TaskControllerTest {
     CompleteTaskUseCase completeTaskUseCase;
     @Mock
     EditTaskDescriptionUseCase editTaskDescriptionUseCase;
+    @Mock
+    UnassignTaskUseCase unassignTaskUseCase;
 
     @InjectMocks
     TaskController taskController;
@@ -162,6 +164,17 @@ class TaskControllerTest {
         verify(editTaskDescriptionUseCase).execute(assertArg(actual -> {
             assertThat(actual.taskId()).isEqualTo(new TaskId(taskId));
             assertThat(actual.newDescription()).isEqualTo(expectedDescription);
+        }));
+    }
+    @Test
+    void unassignTask_callsUnassignTaskUseCase() {
+        // given
+        UUID taskId = UUID.randomUUID();
+        // when
+        taskController.unassignTask(taskId);
+        // then
+        verify(unassignTaskUseCase).execute(assertArg(actual -> {
+            assertThat(actual.taskId()).isEqualTo(new TaskId(taskId));
         }));
     }
 

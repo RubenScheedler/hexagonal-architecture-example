@@ -21,5 +21,5 @@ public class UnassignTaskUseCase {
     }
 
     @Builder
-    record Command(TaskId taskId) {}
+    public record Command(TaskId taskId) {}
 }

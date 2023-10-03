@@ -43,6 +43,8 @@ class TaskControllerWebMvcTest {
     private CompleteTaskUseCase completeTaskUseCase;
     @MockBean
     private EditTaskDescriptionUseCase editTaskDescriptionUseCase;
+    @MockBean
+    private UnassignTaskUseCase unassignTaskUseCase;
 
     @Test
     void getTasks_withoutAuthentication_gives200() throws Exception {
@@ -110,6 +112,17 @@ class TaskControllerWebMvcTest {
         mockMvc.perform(patch("/api/v1/tasks/" + taskId + "/description")
                         .contentType(MediaType.TEXT_PLAIN)
                         .content("Do laundry")
+                )
+                // then
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void unassignTask_gives200() throws Exception {
+        // when
+        UUID taskId = UUID.randomUUID();
+        mockMvc.perform(patch("/api/v1/tasks/" + taskId + "/unassign")
+                        .contentType(MediaType.ALL)
                 )
                 // then
                 .andExpect(status().isOk());

@@ -25,6 +25,7 @@ public class TaskController {
     private final AssignTaskUseCase assignTaskUseCase;
     private final CompleteTaskUseCase completeTaskUseCase;
     private final EditTaskDescriptionUseCase editTaskDescriptionUseCase;
+    private final UnassignTaskUseCase unassignTaskUseCase;
     private final TaskMapper taskMapper;
 
     /**
@@ -89,6 +90,17 @@ public class TaskController {
                 .newDescription(description)
                 .build());
 
+        return ResponseEntity.ok().build();
+    }
+    /**
+     * Unassigns a task
+     * @param taskId Id of the task to unassign
+     */
+    @PatchMapping("/{taskId}/unassign")
+    ResponseEntity<Void> unassignTask(@PathVariable @NonNull UUID taskId) {
+        unassignTaskUseCase.execute(UnassignTaskUseCase.Command.builder()
+                .taskId(new TaskId(taskId))
+                .build());
         return ResponseEntity.ok().build();
     }
 }
