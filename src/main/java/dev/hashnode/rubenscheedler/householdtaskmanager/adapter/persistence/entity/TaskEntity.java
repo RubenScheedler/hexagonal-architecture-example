@@ -2,11 +2,15 @@ package dev.hashnode.rubenscheedler.householdtaskmanager.adapter.persistence.ent
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.UUID;
 
+@Data
+@Builder
 @Entity(name="task")
+@NoArgsConstructor // for ORM/Spring repo
+@AllArgsConstructor // for @Builder
 public class TaskEntity {
     @NonNull
     @Id
