@@ -6,10 +6,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.model.Tas
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.AssignTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CompleteTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CreateTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.ViewUncompletedTasksUseCase;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,6 +37,8 @@ class TaskControllerTest {
     AssignTaskUseCase assignTaskUseCase;
     @Mock
     CompleteTaskUseCase completeTaskUseCase;
+    @Mock
+    EditTaskDescriptionUseCase editTaskDescriptionUseCase;
 
     @InjectMocks
     TaskController taskController;
@@ -149,6 +148,20 @@ class TaskControllerTest {
         // then
         verify(completeTaskUseCase).execute(assertArg(actual -> {
             assertThat(actual).isEqualTo(new TaskId(taskId));
+        }));
+    }
+
+    @Test
+    void editTaskDescription_callsEditTaskDescriptionUseCase() {
+        // given
+        UUID taskId = UUID.randomUUID();
+        String expectedDescription = "Do laundry";
+        // when
+        taskController.editTaskDescription(taskId, expectedDescription);
+        // then
+        verify(editTaskDescriptionUseCase).execute(assertArg(actual -> {
+            assertThat(actual.taskId()).isEqualTo(new TaskId(taskId));
+            assertThat(actual.newDescription()).isEqualTo(expectedDescription);
         }));
     }
 

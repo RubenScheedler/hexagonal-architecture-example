@@ -21,5 +21,5 @@ public class EditTaskDescriptionUseCase {
     }
 
     @Builder
-    record Command(TaskId taskId, String newDescription) {}
+    public record Command(TaskId taskId, String newDescription) {}
 }

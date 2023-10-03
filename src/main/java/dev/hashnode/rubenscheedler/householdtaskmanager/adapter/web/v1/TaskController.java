@@ -6,10 +6,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.model.Tas
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.AssignTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CompleteTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CreateTaskUseCase;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.ViewUncompletedTasksUseCase;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,7 @@ public class TaskController {
     private final CreateTaskUseCase createTaskUseCase;
     private final AssignTaskUseCase assignTaskUseCase;
     private final CompleteTaskUseCase completeTaskUseCase;
+    private final EditTaskDescriptionUseCase editTaskDescriptionUseCase;
     private final TaskMapper taskMapper;
 
     /**
@@ -76,6 +74,21 @@ public class TaskController {
     @PatchMapping("/{taskId}/complete")
     ResponseEntity<Void> completeTask(@PathVariable @NonNull UUID taskId) {
         completeTaskUseCase.execute(new TaskId(taskId));
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Edit a task's description
+     * @param taskId Id of the task to edit
+     * @param description New description of the task
+     */
+    @PatchMapping("/{taskId}/description")
+    ResponseEntity<Void> editTaskDescription(@PathVariable @NonNull UUID taskId, @RequestBody @NonNull String description) {
+        editTaskDescriptionUseCase.execute(EditTaskDescriptionUseCase.Command.builder()
+                .taskId(new TaskId(taskId))
+                .newDescription(description)
+                .build());
+
         return ResponseEntity.ok().build();
     }
 }
