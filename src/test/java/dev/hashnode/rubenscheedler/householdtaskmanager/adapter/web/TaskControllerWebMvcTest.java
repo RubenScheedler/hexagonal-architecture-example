@@ -6,6 +6,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.TaskContr
 import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.mapping.TaskMapper;
 import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.model.TaskCreationDto;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.AssignTaskUseCase;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CompleteTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CreateTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.ViewUncompletedTasksUseCase;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,8 @@ class TaskControllerWebMvcTest {
     private CreateTaskUseCase createTaskUseCase;
     @MockBean
     private AssignTaskUseCase assignTaskUseCase;
+    @MockBean
+    private CompleteTaskUseCase completeTaskUseCase;
 
     @Test
     void getTasks_withoutAuthentication_gives200() throws Exception {
@@ -90,4 +93,14 @@ class TaskControllerWebMvcTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void completeTask_gives200() throws Exception {
+        // when
+        UUID taskId = UUID.randomUUID();
+        mockMvc.perform(patch("/api/v1/tasks/" + taskId + "/complete")
+                        .contentType(MediaType.ALL)
+                )
+        // then
+                .andExpect(status().isOk());
+    }
 }

@@ -7,6 +7,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.AssignTaskUseCase;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CompleteTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CreateTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.ViewUncompletedTasksUseCase;
 import lombok.NonNull;
@@ -25,6 +26,7 @@ public class TaskController {
     private final ViewUncompletedTasksUseCase viewUncompletedTasksUseCase;
     private final CreateTaskUseCase createTaskUseCase;
     private final AssignTaskUseCase assignTaskUseCase;
+    private final CompleteTaskUseCase completeTaskUseCase;
     private final TaskMapper taskMapper;
 
     /**
@@ -64,6 +66,16 @@ public class TaskController {
                         .taskId(new TaskId(taskId))
                         .assignee(Assignee.builder().nickname(assignee).build())
                 .build());
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Completes a task
+     * @param taskId Id of the task to complete
+     */
+    @PatchMapping("/{taskId}/complete")
+    ResponseEntity<Void> completeTask(@PathVariable @NonNull UUID taskId) {
+        completeTaskUseCase.execute(new TaskId(taskId));
         return ResponseEntity.ok().build();
     }
 }
