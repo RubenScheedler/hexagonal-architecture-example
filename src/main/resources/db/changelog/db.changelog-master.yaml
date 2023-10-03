@@ -1,1 +1,26 @@
-databaseChangeLog: []
+databaseChangeLog:
+  - changeSet:
+      id: createTaskTable
+      author: Ruben
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: description
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assignee
+                  type: varchar
+              - column:
+                  name: completed
+                  type: boolean
+                  constraints:
+                    nullable: false
