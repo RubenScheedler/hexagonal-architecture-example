@@ -3,6 +3,7 @@ package dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTaskPort;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.SaveTaskPort;
 import lombok.Builder;
 import lombok.NonNull;
@@ -13,8 +14,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreateTaskUseCase {
     private final SaveTaskPort saveTaskPort;
+    private final GetTaskPort getTaskPort;
 
-    public void execute(Command command) {
+    public Task execute(Command command) {
         // Generate a unique id for the new task
         TaskId taskId = new TaskId(UUID.randomUUID());
 
@@ -25,8 +27,10 @@ public class CreateTaskUseCase {
                         .completed(command.completed())
                         .assignee(command.assignee())
                 .build());
+
+        return getTaskPort.getTask(taskId);
     }
 
     @Builder
-    record Command(@NonNull String description, boolean completed, Assignee assignee) {}
+    public record Command(@NonNull String description, boolean completed, Assignee assignee) {}
 }

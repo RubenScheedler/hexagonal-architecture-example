@@ -24,8 +24,8 @@ public class UseCaseBeanConfiguration {
     }
 
     @Bean
-    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort) {
-        return new CreateTaskUseCase(saveTaskPort);
+    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort, GetTaskPort getTaskPort) {
+        return new CreateTaskUseCase(saveTaskPort, getTaskPort);
     }
 
     @Bean
