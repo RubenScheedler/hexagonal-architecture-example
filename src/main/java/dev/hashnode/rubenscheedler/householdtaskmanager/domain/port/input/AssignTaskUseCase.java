@@ -6,6 +6,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.Ta
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTaskPort;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.SaveTaskPort;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -13,7 +14,7 @@ public class AssignTaskUseCase {
     private final GetTaskPort getTaskPort;
     private final SaveTaskPort saveTaskPort;
 
-    public void execute(Command command) {
+    public void execute(@NonNull Command command) {
         Task task = getTaskPort.getTask(command.taskId());
 
         task.setAssignee(command.assignee());
@@ -22,5 +23,5 @@ public class AssignTaskUseCase {
     }
 
     @Builder
-    record Command(TaskId taskId, Assignee assignee) {}
+    public record Command(TaskId taskId, Assignee assignee) {}
 }

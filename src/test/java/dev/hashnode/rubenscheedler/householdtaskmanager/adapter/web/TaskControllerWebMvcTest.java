@@ -14,13 +14,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +39,8 @@ class TaskControllerWebMvcTest {
     private ViewUncompletedTasksUseCase viewUncompletedTasksUseCase;
     @MockBean
     private CreateTaskUseCase createTaskUseCase;
+    @MockBean
+    private AssignTaskUseCase assignTaskUseCase;
 
     @Test
     void getTasks_withoutAuthentication_gives200() throws Exception {
@@ -63,13 +68,26 @@ class TaskControllerWebMvcTest {
     }
 
     @Test
-    void create_taskWithInvalidBody_gives400badRequest() throws Exception {
+    void createTask_withInvalidBody_gives400badRequest() throws Exception {
         // when
         mockMvc.perform(post("/api/v1/tasks")
                         .contentType("application/json")
                         .content("{\"someField\": \"someValue\"}")
                 )
-                // then
+        // then
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void assignTask_gives200() throws Exception {
+        // when
+        UUID taskId = UUID.randomUUID();
+        mockMvc.perform(patch("/api/v1/tasks/" + taskId + "/assignee")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("Alice")
+                )
+        // then
+                .andExpect(status().isOk());
+    }
+
 }

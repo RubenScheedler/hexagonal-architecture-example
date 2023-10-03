@@ -6,6 +6,7 @@ import dev.hashnode.rubenscheedler.householdtaskmanager.adapter.web.v1.model.Tas
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.AssignTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.CreateTaskUseCase;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.ViewUncompletedTasksUseCase;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,9 @@ class TaskControllerTest {
     ViewUncompletedTasksUseCase viewUncompletedTasksUseCase;
     @Mock
     CreateTaskUseCase createTaskUseCase;
+    @Mock
+    AssignTaskUseCase assignTaskUseCase;
+
     @InjectMocks
     TaskController taskController;
 
@@ -117,6 +121,20 @@ class TaskControllerTest {
         assertThat(actual).isNotNull();
         assertThat(actual.getBody()).isNotNull();
         assertThat(actual.getBody()).isEqualTo(expected);
+    }
+
+    @Test
+    void assignTask_callsAssignTaskUseCase() {
+        // given
+        UUID taskId = UUID.randomUUID();
+        String assignee = "Bob";
+        // when
+        taskController.assignTask(taskId, assignee);
+        // then
+        verify(assignTaskUseCase).execute(assertArg(command -> {
+            assertThat(command.taskId()).isEqualTo(new TaskId(taskId));
+            assertThat(command.assignee()).isEqualTo(Assignee.builder().nickname(assignee).build());
+        }));
     }
 
     private static List<Task> createStubTasks() {
