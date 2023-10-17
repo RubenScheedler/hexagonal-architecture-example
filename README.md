@@ -8,7 +8,7 @@ We distinguish two kinds of users: adults and children. Some functions of the ap
 
 ### Functional Requirements
 The following usecases should be provided by the system
-- Fill in your name and role (adult or child) 
+- Fill in your name and role
 - Add a task (adult only)
 - View all tasks
 - Complete a task
@@ -21,5 +21,22 @@ The following usecases should be provided by the system
 - The application must be set up according to hexagonal architecture
 - The application should be a Java back-end application
 - A swagger page must be included to be able to interact with the system
+
+### How To Use This Application
+The application can be build using maven and then run locally. 
+
+Visit the Swagger page to interact with the system at http://localhost:8080/swagger-ui/index.html#/
+
+The endpoints will ask for credentials. These are the credentials of accounts you can test with:
+
+
+| role   | username | password |
+|--------|----------|----------|
+| parent | dad      | dad      |
+| parent | mom      | mom      |
+| child  | alice    | alice    |
+| child  | bob      | bob      |
+
+
 
 

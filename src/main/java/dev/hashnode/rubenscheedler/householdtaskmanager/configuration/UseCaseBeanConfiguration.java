@@ -1,10 +1,7 @@
 package dev.hashnode.rubenscheedler.householdtaskmanager.configuration;
 
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input.*;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.DeleteTaskPort;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTaskPort;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTasksPort;
-import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.SaveTaskPort;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,37 +11,37 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UseCaseBeanConfiguration {
     @Bean
-    AssignTaskUseCase assignTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort) {
-        return new AssignTaskUseCase(getTaskPort, saveTaskPort);
+    AssignTaskUseCase assignTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new AssignTaskUseCase(getTaskPort, saveTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    CompleteTaskUseCase completeTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort) {
-        return new CompleteTaskUseCase(getTaskPort, saveTaskPort);
+    CompleteTaskUseCase completeTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new CompleteTaskUseCase(getTaskPort, saveTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort, GetTaskPort getTaskPort) {
-        return new CreateTaskUseCase(saveTaskPort, getTaskPort);
+    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort, GetTaskPort getTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new CreateTaskUseCase(saveTaskPort, getTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    DeleteTaskUseCase deleteTaskUseCase(DeleteTaskPort deleteTaskPort) {
-        return new DeleteTaskUseCase(deleteTaskPort);
+    DeleteTaskUseCase deleteTaskUseCase(DeleteTaskPort deleteTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new DeleteTaskUseCase(deleteTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    EditTaskDescriptionUseCase editTaskDescriptionUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort) {
-        return new EditTaskDescriptionUseCase(getTaskPort, saveTaskPort);
+    EditTaskDescriptionUseCase editTaskDescriptionUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new EditTaskDescriptionUseCase(getTaskPort, saveTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    UnassignTaskUseCase unassignTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort) {
-        return new UnassignTaskUseCase(getTaskPort, saveTaskPort);
+    UnassignTaskUseCase unassignTaskUseCase(GetTaskPort getTaskPort, SaveTaskPort saveTaskPort, GetCurrentUserPort getCurrentUserPort) {
+        return new UnassignTaskUseCase(getTaskPort, saveTaskPort, getCurrentUserPort);
     }
 
     @Bean
-    ViewUncompletedTasksUseCase viewUncompletedTasksUseCase(GetTasksPort getTasksPort) {
-        return new ViewUncompletedTasksUseCase(getTasksPort);
+    ViewUncompletedTasksUseCase viewUncompletedTasksUseCase(GetTasksPort getTasksPort, GetCurrentUserPort getCurrentUserPort) {
+        return new ViewUncompletedTasksUseCase(getTasksPort, getCurrentUserPort);
     }
 }
