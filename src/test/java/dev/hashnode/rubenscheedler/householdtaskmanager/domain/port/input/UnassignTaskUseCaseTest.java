@@ -1,8 +1,11 @@
 package dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input;
 
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.exception.ForbiddenException;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.User;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetCurrentUserPort;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTaskPort;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.SaveTaskPort;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -23,6 +27,8 @@ class UnassignTaskUseCaseTest {
     GetTaskPort getTaskPort;
     @Mock
     SaveTaskPort saveTaskPort;
+    @Mock
+    GetCurrentUserPort getCurrentUserPort;
     @InjectMocks
     UnassignTaskUseCase unassignTaskUseCase;
 
@@ -36,10 +42,17 @@ class UnassignTaskUseCaseTest {
             .assignee(Assignee.builder().nickname("Ruben").build())
             .build();
 
+    User authorizedUser = User.builder()
+            .nickname("bob")
+            .isParent(false)
+            .isFamilyMember(true)
+            .build();
+
     @Test
     void execute_getsTaskByCommandTaskId() {
         // given
         when(getTaskPort.getTask(any())).thenReturn(task);
+        when(getCurrentUserPort.getCurrentUser()).thenReturn(authorizedUser);
 
         // when
         unassignTaskUseCase.execute(command);
@@ -52,6 +65,7 @@ class UnassignTaskUseCaseTest {
     void execute_emptiesAssigneeOfTask() {
         // given
         when(getTaskPort.getTask(any())).thenReturn(task);
+        when(getCurrentUserPort.getCurrentUser()).thenReturn(authorizedUser);
 
         // when
         unassignTaskUseCase.execute(command);
@@ -61,5 +75,17 @@ class UnassignTaskUseCaseTest {
             assertThat(actual.getId()).isEqualTo(command.taskId());
             assertThat(actual.getAssignee()).isNull();
         }));
+    }
+    @Test
+    void execute_userNotAFamilyMember_throwsException() {
+        when(getCurrentUserPort.getCurrentUser()).thenReturn(User.builder()
+                .nickname("charlie")
+                .isFamilyMember(false)
+                .isParent(true)
+                .build());
+
+        // when + then
+        assertThatThrownBy(() -> unassignTaskUseCase.execute(mock(UnassignTaskUseCase.Command.class)))
+                .isInstanceOf(ForbiddenException.class);
     }
 }

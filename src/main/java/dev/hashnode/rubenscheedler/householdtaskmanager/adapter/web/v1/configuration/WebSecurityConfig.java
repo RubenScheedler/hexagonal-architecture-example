@@ -27,6 +27,9 @@ public class WebSecurityConfig {
                     // All other endpoints require authentication
                     auth.anyRequest().authenticated();
                 })
+                // Disable csrf
+                .csrf(auth -> auth.ignoringRequestMatchers("**"))
+                // Require basic auth by default
                 .httpBasic(withDefaults());
         return http.build();
     }
