@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class DomainExceptionHandler {
     @ExceptionHandler(value = {ForbiddenException.class})
-    public ResponseEntity<String> handleUnauthorizedException(ForbiddenException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> handleForbiddenException(ForbiddenException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 }

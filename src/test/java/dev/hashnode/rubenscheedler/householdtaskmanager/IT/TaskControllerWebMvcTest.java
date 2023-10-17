@@ -186,6 +186,6 @@ class TaskControllerWebMvcTest {
                         ))
                 )
                 // then
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 }
