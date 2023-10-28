@@ -19,9 +19,23 @@ public class CompleteTaskUseCase {
 
         Task task = getTaskPort.getTask(taskId);
 
+        if (assignedToOtherUser(task)) {
+            throw new ForbiddenException("This task is already assigned to another user");
+        }
+
         task.setCompleted(true);
 
         saveTaskPort.saveTask(task);
+
+
+    }
+
+    private boolean assignedToOtherUser(Task task) {
+        if (task.getAssignee() == null) {
+            return false;
+        }
+        String currentAssignee = task.getAssignee().nickname();
+        return !getCurrentUserPort.getCurrentUser().getNickname().equals(currentAssignee);
     }
 
     private void performAuthorization() {
