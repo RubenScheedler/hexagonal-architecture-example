@@ -20,10 +20,11 @@ public class UseCaseBeanConfiguration {
         return new CompleteTaskUseCase(getTaskPort, saveTaskPort, getCurrentUserPort);
     }
 
-    @Bean
-    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort, GetTaskPort getTaskPort, GetCurrentUserPort getCurrentUserPort) {
-        return new CreateTaskUseCase(saveTaskPort, getTaskPort, getCurrentUserPort);
-    }
+// Disabled, because we have a transactional variant annotated with @component
+//    @Bean
+//    CreateTaskUseCase createTaskUseCase(SaveTaskPort saveTaskPort, GetTaskPort getTaskPort, GetCurrentUserPort getCurrentUserPort) {
+//        return new CreateTaskUseCase(saveTaskPort, getTaskPort, getCurrentUserPort);
+//    }
 
     @Bean
     DeleteTaskUseCase deleteTaskUseCase(DeleteTaskPort deleteTaskPort, GetCurrentUserPort getCurrentUserPort) {
