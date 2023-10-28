@@ -11,7 +11,7 @@ The following usecases should be provided by the system
 - Fill in your name and role
 - Add a task (adult only)
 - View all tasks
-- Complete a task
+- Complete a task, not assigned to someone else
 - Assign a task to yourself
 - Unassign a task
 - Edit a task's description (adult only)

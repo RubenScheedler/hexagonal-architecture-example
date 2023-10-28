@@ -3,6 +3,7 @@ package dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.input;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.exception.ForbiddenException;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.Task;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.entity.User;
+import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.Assignee;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.model.value.id.TaskId;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetCurrentUserPort;
 import dev.hashnode.rubenscheedler.householdtaskmanager.domain.port.output.GetTaskPort;
@@ -35,6 +36,7 @@ class CompleteTaskUseCaseTest {
     Task task = Task.builder()
             .id(new TaskId(UUID.randomUUID()))
             .completed(false)
+            .assignee(Assignee.builder().nickname("bob").build())
             .description("Clean the kitchen")
             .build();
 
@@ -78,6 +80,21 @@ class CompleteTaskUseCaseTest {
                 .nickname("charlie")
                 .isFamilyMember(false)
                 .isParent(true)
+                .build());
+
+        // when + then
+        assertThatThrownBy(() -> completeTaskUseCase.execute(task.getId()))
+                .isInstanceOf(ForbiddenException.class);
+    }
+
+    @Test
+    void execute_taskClaimedBySomeoneElse_throwsException() {
+        // given
+        when(getTaskPort.getTask(any())).thenReturn(task); // claimed by bob
+        when(getCurrentUserPort.getCurrentUser()).thenReturn(User.builder()
+                .nickname("alice")
+                .isParent(false)
+                .isFamilyMember(true)
                 .build());
 
         // when + then
